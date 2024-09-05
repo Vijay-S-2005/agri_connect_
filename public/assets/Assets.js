@@ -7,9 +7,13 @@ import slider_img1 from './image/slider_img1.jpg';
 import slider_img2 from './image/slider_img2.jpg';
 import slider_img3 from './image/slider_img3.jpg';
 import Cart from './image/Cart.png';
+import WhatsApp from './image/WhatsApp.png';
+
+
 
 export const Assets = {
     Facebook,
+    WhatsApp,
     Instagram,
     profile,
     Agriconnect_logo,

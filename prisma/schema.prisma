@@ -16,3 +16,13 @@ model User {
   password     String
   createdAt    DateTime @default(now())
 }
+
+
+
+model OTP {
+  id          Int      @id @default(autoincrement())
+  phoneNumber String
+  otp         String
+  createdAt   DateTime @default(now())
+  expiresAt   DateTime
+}
