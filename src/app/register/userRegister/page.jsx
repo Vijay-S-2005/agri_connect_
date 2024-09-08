@@ -2,17 +2,11 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation'; // Correct import for app directory
+
 
 export default function Register() {
-    const [otp, setOtp] = useState('');
-    const [isOtpSent, setIsOtpSent] = useState(false);
-    const [message, setMessage] = useState('');
-
-
-    const handleInputChange = (e) => {
-        setOtp(e.target.value);
-    };
-  const [formValid, setFormValid] = useState(false);
+  const router = useRouter();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -64,42 +58,7 @@ export default function Register() {
   };
 
 
-  const verifyOtp = async () => {
-    try {
-      console.log("hit1")
-      console.log("ph",formData.phoneNumber)
-      const response = await axios.post('/api/verify-OTP', { unProcessedPhoneNumber: formData.phoneNumber, otp });
-
-      if (response.status === 200) {
-        setMessage('OTP verified successfully');
-        try{
-        const response = await axios.post('/api/register', formData);
-        alert('Registration successful!');
-        console.log("register success")
-        console.log(response)
-        }
-        catch (error) {
-          // Handle error
-          if (error.response) {
-            // Request made and server responded with a status code outside of 2xx
-            setErrors({ submit: error.response.data.error });
-          } else if (error.request) {
-            // The request was made but no response was received
-            setErrors({ submit: 'No response from server' });
-          } 
-          else {
-            // Something happened in setting up the request that triggered an Error
-            setErrors({ submit: 'Error in request setup' });
-            setMessage(error.response?.data?.message || 'Failed to send OTP');
-          }
-        }
-
-      }
-    } catch (error) {
-      setMessage(error.response?.data?.message || 'Invalid or expired OTP');
-    }
-  };
-
+  
 
   const handleChange = (e) => {
     setFormData({
@@ -110,59 +69,28 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (validate()) {
-        setFormValid(true);
-      setErrors({});
   
+    if (validate()) {
+      console.log(formData.phoneNumber);
       try {
-        
-        
-        const response = await axios.post('/api/send-OTP', { phoneNumber: formData.phoneNumber });
-        console.log("hit2")
-
-        // Handle success (e.g., redirect to login page)
-
-        if (response.status === 200) {
-            setIsOtpSent(true);
-            setMessage('OTP sent successfully');
-          }
-
-
-        // Clear the form data
-        // setFormData({
-        //     firstName: '',
-        //     lastName: '',
-        //     phoneNumber: '',
-        //     email: '',
-        //     password: '',
-        //     confirmPassword: '',
-        // });
-
-
-        
+        const response = await axios.post("/api/otp/createOTP", { phoneNumber: formData.phoneNumber });
+        console.log("hit");
+        setMessage(response.data.message);
+        setStep(2);
+        router.push('/register/otpVerification');
       } catch (error) {
-        // Handle error
+        console.error("Error in userRegister page:", error);
         if (error.response) {
-          // Request made and server responded with a status code outside of 2xx
-          setErrors({ submit: error.response.data.error });
-        } else if (error.request) {
-          // The request was made but no response was received
-          setErrors({ submit: 'No response from server' });
-        } 
-        else {
-          // Something happened in setting up the request that triggered an Error
-          setErrors({ submit: 'Error in request setup' });
-          setMessage(error.response?.data?.message || 'Failed to send OTP');
+          console.error("Server responded with error:", error.response.data);
         }
       }
     }
   };
+  
 
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
-        {!formValid ?(
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-semibold text-center text-gray-700 mb-6">
           User Register
@@ -291,35 +219,7 @@ export default function Register() {
           </button>
         </form>
       </div>
-
-        ):(
-
-            <div className="flex justify-center items-center h-screen bg-gray-100">
-            <div className="bg-white p-8 rounded-lg shadow-md w-80">
-              <h2 className="text-2xl font-bold mb-6 text-center">Enter OTP</h2>
-              <form>
-                <div className="mb-4">
-                  <input
-                    type="text"
-                    className="w-full p-3 border border-gray-300 rounded"
-                    placeholder="Enter your OTP"
-                    value={otp}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <button
-                  onClick={verifyOtp}
-                  className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-                >
-                  Verify OTP
-                </button>
-                {message && <p style={{ marginTop: '20px', color: 'red' }}>{message}</p>}
-              </form>
-            </div>
-          </div>
-        )}
-        
     </div>
   );
 }
+

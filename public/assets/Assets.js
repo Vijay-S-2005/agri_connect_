@@ -8,7 +8,8 @@ import slider_img2 from './image/slider_img2.jpg';
 import slider_img3 from './image/slider_img3.jpg';
 import Cart from './image/Cart.png';
 import WhatsApp from './image/WhatsApp.png';
-
+import Apple from './image/Apple.jpg';
+import Onions from './image/Onions.jpg';
 
 
 export const Assets = {
@@ -22,5 +23,7 @@ export const Assets = {
     slider_img2,
     slider_img3,
     Cart,
+    Apple,
+    Onions,
 };
 

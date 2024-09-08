@@ -12,7 +12,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="flex flex-col md:flex-row justify-between items-center p-4 bg-green-600 text-white shadow-md">
+    <footer className="flex flex-col md:flex-row justify-between items-center p-4 bg-green-600 text-white shadow-md mt-auto">
       <div className="flex items-center">
         <Image
           src={Assets.Agriconnect_logo}

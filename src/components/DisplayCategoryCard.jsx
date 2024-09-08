@@ -1,13 +1,13 @@
 import Image from 'next/image';
 import { Assets } from '../../public/assets/Assets';
-
+import Link from 'next/link'
 const DisplayCategoryCard = () => {
     const categories = [
         { title: "vegies", items: [
-            { name: 'Makeup', image: Assets.slider_img1 },
-            { name: 'Makeup', image: Assets.slider_img1 },
-            { name: 'Makeup', image: Assets.slider_img1 },
-            { name: 'Makeup', image: Assets.slider_img1 }
+            { name: 'carrot', image: Assets.slider_img1 },
+            { name: 'carrot', image: Assets.slider_img1 },
+            { name: 'carrot', image: Assets.slider_img1 },
+            { name: 'carrot', image: Assets.slider_img1 }
           ]
         },
         { title: "Fresh Vegetables", items: [
@@ -18,10 +18,10 @@ const DisplayCategoryCard = () => {
           ]
         },
         { title: "Onion Delight", items: [
-            { name: 'Onion', image: Assets.slider_img3 },
-            { name: 'Onion', image: Assets.slider_img3 },
-            { name: 'Onion', image: Assets.slider_img3 },
-            { name: 'Onion', image: Assets.slider_img3 }
+            { name: 'Onion', image: Assets.Onions },
+            { name: 'Onion', image: Assets.Onions },
+            { name: 'Onion', image: Assets.Onions },
+            { name: 'Onion', image: Assets.Onions }
           ]
         },
         { title: "Healthy Beans", items: [
@@ -45,7 +45,7 @@ const DisplayCategoryCard = () => {
               </div>
             ))}
           </div>
-          <a href="#" style={styles.link}>See more</a>
+          <Link href="/displayProduct" style={styles.link}>See more</Link>
         </div>
       ))}
     </>

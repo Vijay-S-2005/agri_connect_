@@ -29,12 +29,12 @@ const Header = () => {
 
   const handleEnTranslateClose = () => {
     setTranslateAnchorEl(null);
-    router.push(pathname, pathname, { locale: 'en' });
+    // router.push(pathname, pathname, { locale: 'en' });
   };
 
   const handleTaTranslateClose = () => {
     setTranslateAnchorEl(null);
-    router.push(pathname, pathname, { locale: 'ta' });
+    // router.push(pathname, pathname, { locale: 'ta' });
 
   };
 
