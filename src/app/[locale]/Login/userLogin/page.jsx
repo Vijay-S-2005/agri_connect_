@@ -1,7 +1,9 @@
-'use client';
-import React, { useState } from 'react';
-import Link from 'next/link';
+"use client";
+import React, { useState } from "react";
+// import { unstable_setRequestLocale } from "next-intl/server";
+import Link from "next/link";
 export default function Login() {
+  // unstable_setRequestLocale(locale);
   const [isOtpLogin, setIsOtpLogin] = useState(false);
 
   const toggleOtpLogin = () => {
@@ -12,13 +14,16 @@ export default function Login() {
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-semibold text-center text-gray-700 mb-6">
-          {isOtpLogin ? 'User Login with OTP' : 'User Login'}
+          {isOtpLogin ? "User Login with OTP" : "User Login"}
         </h1>
-        
+
         {!isOtpLogin ? (
           <>
             <div className="mb-4">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-600">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-600"
+              >
                 Email or Phone Number
               </label>
               <input
@@ -30,7 +35,10 @@ export default function Login() {
             </div>
 
             <div className="mb-6">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-600">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-600"
+              >
                 Password
               </label>
               <input
@@ -44,7 +52,10 @@ export default function Login() {
         ) : (
           <>
             <div className="mb-6">
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-600">
+              <label
+                htmlFor="phone"
+                className="block text-sm font-medium text-gray-600"
+              >
                 Phone Number
               </label>
               <input
@@ -55,7 +66,10 @@ export default function Login() {
               />
             </div>
             <div className="mb-6">
-              <label htmlFor="otp" className="block text-sm font-medium text-gray-600">
+              <label
+                htmlFor="otp"
+                className="block text-sm font-medium text-gray-600"
+              >
                 OTP
               </label>
               <input
@@ -69,20 +83,33 @@ export default function Login() {
         )}
 
         <button className="w-full bg-green-600 text-white py-2 px-4 rounded-lg shadow hover:bg-green-700 transition duration-300">
-          {isOtpLogin ? 'Verify OTP' : 'Continue'}
+          {isOtpLogin ? "Verify OTP" : "Continue"}
         </button>
 
         <p className="text-sm text-center text-gray-600 mt-4">
           {isOtpLogin ? (
-            <a href="#" onClick={toggleOtpLogin} className="text-green-600 hover:underline">
+            <a
+              href="#"
+              onClick={toggleOtpLogin}
+              className="text-green-600 hover:underline"
+            >
               Back to Password Login
             </a>
           ) : (
             <>
-              <span>Don't have an account? </span>
-              <Link href="/register/userRegister" className="text-green-600 hover:underline">Sign up</Link>
+              <span>Dont have an account? </span>
+              <Link
+                href="/register/userRegister"
+                className="text-green-600 hover:underline"
+              >
+                Sign up
+              </Link>
               <br />
-              <a href="#" onClick={toggleOtpLogin} className="text-green-600 hover:underline mt-2 block">
+              <a
+                href="#"
+                onClick={toggleOtpLogin}
+                className="text-green-600 hover:underline mt-2 block"
+              >
                 Sign in with OTP
               </a>
             </>

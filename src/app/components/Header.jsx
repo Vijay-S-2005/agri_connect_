@@ -1,16 +1,17 @@
-'use client';
-import * as React from 'react';
-import Image from 'next/image';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import { Assets } from '../../public/assets/Assets';
-import { useRouter } from 'next/navigation';
-// import { useRouter } from 'next/router';
-// import { useLocale } from 'next-intl';
-// import { FormattedMessage } from 'react-intl';
+"use client";
+import * as React from "react";
+import Image from "next/image";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { Assets } from "../../../public/assets/Assets";
+import { useRouter, usePathname } from "next/navigation";
+import { useTranslations, useLocale } from "next-intl";
 
 const Header = () => {
+  const t = useTranslations("Header");
+  const localeActive = useLocale();
+  const pathname = usePathname(); // Get the current pathname
 
   // State for Translate Menu
   const [translateAnchorEl, setTranslateAnchorEl] = React.useState(null);
@@ -21,22 +22,20 @@ const Header = () => {
   const profileMenuOpen = Boolean(profileAnchorEl);
 
   const router = useRouter();
-  const { pathname } = router;
-  // Handlers for Translate Menu
   const handleTranslateClick = (event) => {
     setTranslateAnchorEl(event.currentTarget);
   };
 
-  const handleEnTranslateClose = () => {
+  const handleTranslateClose = (newLocale) => {
     setTranslateAnchorEl(null);
-    router.push(pathname, pathname, { locale: 'en' });
+    // Regex to match the current locale in the path
+    const localeRegex = /^\/(en|ta)(\/|$)/;
+    const newPath = pathname.replace(localeRegex, `/${newLocale}/`);
+    router.replace(newPath);
   };
 
-  const handleTaTranslateClose = () => {
-    setTranslateAnchorEl(null);
-    router.push(pathname, pathname, { locale: 'ta' });
-
-  };
+  const handleEnTranslateClose = () => handleTranslateClose("en");
+  const handleTaTranslateClose = () => handleTranslateClose("ta");
 
   // Handlers for Profile Menu
   const handleProfileClick = (event) => {
@@ -49,13 +48,13 @@ const Header = () => {
 
   const handleUserLogin = () => {
     setProfileAnchorEl(null);
-    router.push('/Login/userLogin');
-  }
+    router.replace(`/${localeActive}/Login/userLogin`);
+  };
 
   const handleFarmerLogin = () => {
     setProfileAnchorEl(null);
-    router.push('/Login/farmerLogin');
-  }
+    router.replace(`/${localeActive}/Login/farmerLogin`);
+  };
 
   return (
     <header className="flex justify-between items-center p-4 bg-green-600 shadow-md">
@@ -72,12 +71,11 @@ const Header = () => {
         <div className="flex items-center bg-white rounded-full shadow-md overflow-hidden">
           <input
             type="text"
-            placeholder="Search for products"
+            placeholder={t("searchPlaceholder")}
             className="flex-1 px-4 py-2 text-gray-700 focus:outline-none"
           />
           <button className="bg-green-700 text-white px-4 py-2 rounded-full hover:bg-green-800 transition duration-300">
-          {/* <FormattedMessage id="search" defaultMessage="search" /> */}
-          Search
+            {t("search")}
           </button>
         </div>
       </div>
@@ -93,14 +91,14 @@ const Header = () => {
           />
           <Button
             id="translate-button"
-            aria-controls={translateMenuOpen ? 'translate-menu' : undefined}
+            aria-controls={translateMenuOpen ? "translate-menu" : undefined}
             aria-haspopup="true"
-            aria-expanded={translateMenuOpen ? 'true' : undefined}
+            aria-expanded={translateMenuOpen ? "true" : undefined}
             onClick={handleTranslateClick}
             className="text-white normal-case"
           >
             <p className="ml-2 hover:underline transition duration-300">
-              Translate
+              {t("translate")}
             </p>
           </Button>
 
@@ -110,13 +108,12 @@ const Header = () => {
             open={translateMenuOpen}
             onClose={handleEnTranslateClose}
             MenuListProps={{
-              'aria-labelledby': 'translate-button',
+              "aria-labelledby": "translate-button",
             }}
           >
             <MenuItem onClick={handleEnTranslateClose}>English</MenuItem>
-            <MenuItem onClick={handleTaTranslateClose}>Tamil</MenuItem>
+            <MenuItem onClick={handleTaTranslateClose}>தமிழ்</MenuItem>
           </Menu>
-
         </div>
 
         <div className="flex items-center cursor-pointer">
@@ -128,7 +125,7 @@ const Header = () => {
             className="hover:opacity-80 transition duration-300"
           />
           <p className="ml-2 hover:underline transition duration-300">
-            Cart
+            {t("cart")}
           </p>
         </div>
 
@@ -143,14 +140,14 @@ const Header = () => {
 
           <Button
             id="profile-button"
-            aria-controls={profileMenuOpen ? 'profile-menu' : undefined}
+            aria-controls={profileMenuOpen ? "profile-menu" : undefined}
             aria-haspopup="true"
-            aria-expanded={profileMenuOpen ? 'true' : undefined}
+            aria-expanded={profileMenuOpen ? "true" : undefined}
             onClick={handleProfileClick}
             className="text-white normal-case"
           >
             <p className="ml-2 hover:underline transition duration-300">
-              Profile
+              {t("profile")}
             </p>
           </Button>
 
@@ -160,15 +157,14 @@ const Header = () => {
             open={profileMenuOpen}
             onClose={handleProfileClose}
             MenuListProps={{
-              'aria-labelledby': 'profile-button',
+              "aria-labelledby": "profile-button",
             }}
           >
-            <MenuItem onClick={handleUserLogin}>User's Login</MenuItem>
-            <MenuItem onClick={handleFarmerLogin}>Farmer's Login</MenuItem>
-            <MenuItem onClick={handleProfileClose}>Orders</MenuItem>
+            <MenuItem onClick={handleUserLogin}>{t("userLogin")}</MenuItem>
+            <MenuItem onClick={handleFarmerLogin}>{t("farmerLogin")}</MenuItem>
+            <MenuItem onClick={handleProfileClose}>{t("order")}</MenuItem>
           </Menu>
         </div>
-
       </div>
     </header>
   );
